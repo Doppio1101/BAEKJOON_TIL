@@ -13,11 +13,13 @@ public class BJ_1037 {
 		if(x==1) {
 			ans = sc.nextInt();
 			ans = ans*ans;
-		}else if(x==2) {
-			int a = sc.nextInt();
-			int b = sc.nextInt();
-			ans = a*b;
-		}else {
+		}
+//		else if(x==2) {
+//			int a = sc.nextInt();
+//			int b = sc.nextInt();
+//			ans = a*b;
+//		}
+		else {
 			for(int i=0; i<x; i++) {
 				ary[i] = sc.nextInt(); 
 			}
