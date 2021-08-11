@@ -1,4 +1,4 @@
-package com.ssafy.day0810;
+package week5.day0810;
 
 import java.io.BufferedReader;
 import java.io.IOException;
