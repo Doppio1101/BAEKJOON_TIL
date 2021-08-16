@@ -6,7 +6,7 @@ public class 순열 {
 	static int N = 3, R = 3; // nPr nPn -> n!
 	static int[] number;
 	static boolean[] isSelected;
-
+	
 	public static void main(String[] args) {
 
 		number = new int[R];
@@ -41,6 +41,7 @@ public class 순열 {
 	}
 
 	private static void print(int[] number2) {
+		
 		System.out.println(Arrays.toString(number2));
 	}
 
