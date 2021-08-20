@@ -2,15 +2,15 @@ package week6.day0818;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class SWEA_5644 {
+public class SWEA_5644_2 {
 
 	static BufferedReader br;
 	static StringTokenizer st;
@@ -66,97 +66,64 @@ public class SWEA_5644 {
 		if (cnt == 20) {
 			return;
 		}
-		
-		Queue<Integer> A = check(person[0].i, person[0].j);// 충전 가능한 위치를 큐로 받아옴.
-		Queue<Integer> B = check(person[1].i, person[1].j);// 충전 가능한 위치를 큐로 받아옴.
-//		if(A.isEmpty()&&B.isEmpty()) {
-//			person[0].move();
-//			person[1].move();
-//		}else 
-		if (A.isEmpty() && !B.isEmpty()) {
-			int x = B.size();
-			int max = Integer.MIN_VALUE;
-			for (int i = 0; i < x; i++) {
-				max = Math.max(max, ap[B.poll()].P);
-			}
-			sum += max;
-		} else if (!A.isEmpty() && B.isEmpty()) {
-			int x = A.size();
-			int max = Integer.MIN_VALUE;
-			for (int i = 0; i < x; i++) {
-				max = Math.max(max, ap[A.poll()].P);
-			}
-			sum += max;
-		} else if (!A.isEmpty() && !B.isEmpty()) {
-			int aSize = A.size();
-			int bSize = B.size();
-			int[] ary1 = new int[aSize];
-			int aMax = Integer.MIN_VALUE;
-			int aa = 0;
-			for (int a = 0; a < aSize; a++) {
-				ary1[a] = A.poll();
-//				aMax = Math.max(aMax, ap[ary1[a]].C);
-				if (aMax < ap[ary1[a]].P) {
-					aMax = ap[ary1[a]].P;
-					aa = ary1[a];
-				}
-			}
+		List<Integer> nearA = check(person[0].x, person[0].y);
+		List<Integer> nearB = check(person[1].x, person[1].y);
 
-			int[] ary2 = new int[bSize];
-			int bMax = Integer.MIN_VALUE;
-			int bb = 0;
-			for (int b = 0; b < bSize; b++) {
-				ary2[b] = B.poll();
-				if (bMax < ap[ary2[b]].P) {
-					bMax = ap[ary2[b]].P;
-					bb = ary2[b];
+		boolean flag = true;
+		out: for (int i = 0; i < nearA.size(); i++) {
+			for (int j = 0; j < nearB.size(); j++) {
+				if (nearA.get(i) == nearB.get(j)) {
+					flag = false;
+					break out;
 				}
 			}
-			boolean flag = true;
-			for (int a = 0; a < aSize; a++) {
-				for (int b = 0; b < bSize; b++) {
-					if (ary1[a] == ary2[b]) {
-						flag = false;
-					}
-				}
+		}
+		if (flag) {// 겹치는 게 없음
+			int maxA = 0;
+			int maxB = 0;
+			for (int i = 0; i < nearA.size(); i++) {
+				maxA = Math.max(maxA, ap[nearA.get(i)].P);
 			}
-			if (flag) {
-				sum += (bMax + aMax);
-			} else {
-				if (bMax != aMax) {
-					sum += (bMax + aMax);
-				} else {
-
-					int semiMax = 0;
-					boolean check = true;
-					for (int a = 0; a < aSize; a++) {
-						int semi = 0;
-						for (int b = 0; b < bSize; b++) {
-							if (ary1[a] == ary2[b]) {
-								semi = ap[ary2[b]].P;
-							} else {
-								semi = ap[ary2[b]].P + ap[ary1[a]].P;
-							}
-							semiMax = Math.max(semiMax, semi);
+			for (int j = 0; j < nearB.size(); j++) {
+				maxB = Math.max(maxB, ap[nearB.get(j)].P);
+			}
+			sum += maxA + maxB;
+		} else {// 겹치는 게 있음;
+			int maxA = 0;
+			int maxB = 0;
+			for (int i = 0; i < nearA.size(); i++) {
+				maxA = Math.max(maxA, ap[nearA.get(i)].P);
+			}
+			for (int j = 0; j < nearB.size(); j++) {
+				maxB = Math.max(maxB, ap[nearB.get(j)].P);
+			}
+			if (maxA != maxB) {//겹치는 게 있으나 최대값은 겹치지 않을 때.
+				sum += maxA;
+				sum += maxB;
+			}else {
+				int semiMax = 0;
+				for (int i = 0; i < nearA.size(); i++) {
+					for (int j = 0; j < nearB.size(); j++) {
+						if (nearA.get(i) == nearB.get(j)) {
+							semiMax = Math.max(semiMax, ap[nearB.get(j)].P);
+						} else {
+							semiMax = Math.max(semiMax, (ap[nearA.get(i)].P + ap[nearB.get(j)].P));
 						}
 					}
-					sum += semiMax;
-
 				}
+				sum += semiMax;
 			}
-
 		}
-
 		person[0].move();
 		person[1].move();
 		play(cnt + 1);
 	}
 
-	private static Queue<Integer> check(int i, int j) {
-		Queue<Integer> extra = new LinkedList<>();
+	private static List<Integer> check(int x, int y) {
+		List<Integer> extra = new ArrayList<>();
 		for (int a = 0; a < A; a++) {
 			int c = ap[a].C;
-			if ((Math.abs(i - ap[a].i) + Math.abs(j - ap[a].j)) <= c) {
+			if ((Math.abs(x - ap[a].x) + Math.abs(y - ap[a].y)) <= c) {
 				extra.add(a);
 			}
 		}
@@ -164,35 +131,34 @@ public class SWEA_5644 {
 	}
 
 	static class Person {
-		int i, j;// 좌표 A라는 사람은 0,0 B라는 사람은 9,9\
-		int p;// A/B가 충전할 수 있는 용량.
-		int[][] deltas = { { 0, 0 }, { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
+		int x, y;// 좌표 A라는 사람은 1,1 B라는 사람은 10,10
+		int[][] deltas = { { 0, 0 }, { 0, -1 }, { 1, 0 }, { 0, 1 }, { -1, 0 } };// 제자리, 상, 우, 하, 좌
 		Queue<Integer> move = new LinkedList<>();
 
-		public Person(int i, int j) {
+		public Person(int x, int y) {
 			super();
-			this.i = i;
-			this.j = j;
+			this.x = y;
+			this.x = y;
 		}
 
 		public void move() {
 			int m = move.poll();
 
-			this.i += this.deltas[m][0];
-			this.j += this.deltas[m][1];
+			this.x += this.deltas[m][0];
+			this.y += this.deltas[m][1];
 		}
 
 	}
 
 	static class AP {
-		int i, j;// AP의 좌표
+		int x, y;// AP의 좌표
 		int C;// AP의 충전 가능 범위
 		int P;// AP의 충전 성능 -> 두 명이 동시 접속 하면 2가 나눠진다.
 
-		public AP(int i, int j, int c, int p) {
+		public AP(int x, int y, int c, int p) {
 			super();
-			this.i = i;
-			this.j = j;
+			this.x = x;
+			this.y = y;
 			this.C = c;
 			this.P = p;
 		}

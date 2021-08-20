@@ -6,11 +6,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class SWEA_5644 {
+public class SWEA_5644_1 {
 
 	static BufferedReader br;
 	static StringTokenizer st;
@@ -39,6 +40,8 @@ public class SWEA_5644 {
 			sum = 0;
 			person[0] = new Person(1, 1);
 			person[1] = new Person(10, 10);
+			person[0].move.add(0);
+			person[1].move.add(0);
 			for (int m = 0; m < 2; m++) {
 				st = new StringTokenizer(br.readLine(), " ");
 				for (int i = 0; i < M; i++) {
@@ -54,7 +57,7 @@ public class SWEA_5644 {
 				int p = Integer.parseInt(st.nextToken());
 				ap[a] = new AP(i, j, c, p);
 			}
-
+//			Collections.sort(ap);
 			play(0);
 //			System.out.println(person[0].move);
 			sb.append("#" + tc + " " + sum + "\n");
@@ -63,36 +66,41 @@ public class SWEA_5644 {
 	}
 
 	private static void play(int cnt) {
-		if (cnt == 20) {
+		if (cnt == M+1) {
 			return;
 		}
 		
 		Queue<Integer> A = check(person[0].i, person[0].j);// 충전 가능한 위치를 큐로 받아옴.
 		Queue<Integer> B = check(person[1].i, person[1].j);// 충전 가능한 위치를 큐로 받아옴.
+		int aSize = A.size();
+		int bSize = B.size();
 //		if(A.isEmpty()&&B.isEmpty()) {
 //			person[0].move();
 //			person[1].move();
 //		}else 
 		if (A.isEmpty() && !B.isEmpty()) {
-			int x = B.size();
+			
 			int max = Integer.MIN_VALUE;
-			for (int i = 0; i < x; i++) {
+			for (int i = 0; i < bSize; i++) {
 				max = Math.max(max, ap[B.poll()].P);
 			}
 			sum += max;
 		} else if (!A.isEmpty() && B.isEmpty()) {
-			int x = A.size();
 			int max = Integer.MIN_VALUE;
-			for (int i = 0; i < x; i++) {
+			for (int i = 0; i < aSize; i++) {
 				max = Math.max(max, ap[A.poll()].P);
 			}
 			sum += max;
 		} else if (!A.isEmpty() && !B.isEmpty()) {
-			int aSize = A.size();
-			int bSize = B.size();
+			
 			int[] ary1 = new int[aSize];
 			int aMax = Integer.MIN_VALUE;
+			int[] ary2 = new int[bSize];
+			int bMax = Integer.MIN_VALUE;
+			
 			int aa = 0;
+			int bb = 0;
+			
 			for (int a = 0; a < aSize; a++) {
 				ary1[a] = A.poll();
 //				aMax = Math.max(aMax, ap[ary1[a]].C);
@@ -101,10 +109,7 @@ public class SWEA_5644 {
 					aa = ary1[a];
 				}
 			}
-
-			int[] ary2 = new int[bSize];
-			int bMax = Integer.MIN_VALUE;
-			int bb = 0;
+			
 			for (int b = 0; b < bSize; b++) {
 				ary2[b] = B.poll();
 				if (bMax < ap[ary2[b]].P) {
@@ -113,35 +118,33 @@ public class SWEA_5644 {
 				}
 			}
 			boolean flag = true;
-			for (int a = 0; a < aSize; a++) {
+			outer : for (int a = 0; a < aSize; a++) {
 				for (int b = 0; b < bSize; b++) {
 					if (ary1[a] == ary2[b]) {
 						flag = false;
+						break outer;
 					}
 				}
 			}
-			if (flag) {
+			if (flag) {//겹치는 곳이 없음.
 				sum += (bMax + aMax);
 			} else {
-				if (bMax != aMax) {
-					sum += (bMax + aMax);
-				} else {
-
+				if(aSize==1&&bSize==1) {//겹치는 곳이 있는데 다른 AP로부터 충전을 못 받으면 하나로 둘이 나눠야 한다.
+					sum += aMax;
+				}else if(aMax!=bMax) {//겹치는 곳이 있는데 각자 가지고 있는 최대값이 다르면 각각 더함.
+					sum += (aMax+bMax);
+				}else if(aMax==bMax){//겹치는 곳이 있고 겹치는 곳이 최대값일 때.
 					int semiMax = 0;
-					boolean check = true;
-					for (int a = 0; a < aSize; a++) {
-						int semi = 0;
-						for (int b = 0; b < bSize; b++) {
-							if (ary1[a] == ary2[b]) {
-								semi = ap[ary2[b]].P;
-							} else {
-								semi = ap[ary2[b]].P + ap[ary1[a]].P;
+					for(int i=0; i<aSize; i++) {
+						for(int j=0; j<bSize; j++) {
+							if(ary1[i]==ary2[j]) {
+								semiMax = Math.max(semiMax, ap[ary2[j]].P);
+							}else {
+								semiMax = Math.max(semiMax, (ap[ary1[i]].P+ap[ary2[j]].P));
 							}
-							semiMax = Math.max(semiMax, semi);
 						}
 					}
 					sum += semiMax;
-
 				}
 			}
 
@@ -166,7 +169,7 @@ public class SWEA_5644 {
 	static class Person {
 		int i, j;// 좌표 A라는 사람은 0,0 B라는 사람은 9,9\
 		int p;// A/B가 충전할 수 있는 용량.
-		int[][] deltas = { { 0, 0 }, { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
+		int[][] deltas = { { 0, 0 }, { 0, -1 }, { 1, 0 }, { 0, 1 }, { -1, 0 } };
 		Queue<Integer> move = new LinkedList<>();
 
 		public Person(int i, int j) {
@@ -184,7 +187,7 @@ public class SWEA_5644 {
 
 	}
 
-	static class AP {
+	static class AP implements Comparable<AP> {
 		int i, j;// AP의 좌표
 		int C;// AP의 충전 가능 범위
 		int P;// AP의 충전 성능 -> 두 명이 동시 접속 하면 2가 나눠진다.
@@ -195,6 +198,11 @@ public class SWEA_5644 {
 			this.j = j;
 			this.C = c;
 			this.P = p;
+		}
+
+		@Override
+		public int compareTo(AP o) {
+			return this.P - o.P;
 		}
 
 	}
