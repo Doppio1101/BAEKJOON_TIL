@@ -64,5 +64,15 @@ public class SWEA_3234 {
 		
 		
 	}
+	static void powerSetDupPer(int toChoose, boolean[] choosed) {
+        if (toChoose == 0) {//기저조건!
+        	print(choosed);
+        	return;
+        }
+            choosed[toChoose - 1] = true; //처음에는 다 true로 진행하고
+            powerSetDupPer(toChoose - 1, choosed); //true로 넣어준 다음에
+            choosed[toChoose - 1] = false; //다음에는 false로 바꿔서 진행하면 모든 경우의 수를 볼 수 있겠다!
+            powerSetDupPer(toChoose - 1, choosed);
+    }
 
 }
