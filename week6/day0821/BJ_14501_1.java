@@ -23,7 +23,7 @@ public class BJ_14501_1 {
 		} // 입력 완료.
 		Max = Integer.MIN_VALUE;
 		boolean flag = true;
-		int z = 1;
+		int z = 1;//z는 오늘부터 퇴사 전 날 N일 까지
 		while (z <= N) {
 			int sum = 0;
 			for (int i = z; i <= N;) {
@@ -52,11 +52,11 @@ public class BJ_14501_1 {
 		System.out.println(Max);
 	}
 
-	private static int[] find(int fi) {
-		int z = fi;
+	private static int[] find(int fi) {//i번째 일부터 퇴사날까찌 받을 수 있는 금액이 최대인 날을 찾아 arr[0] 그 일 수와 arr[1] 돈을 보냄
+		int z = fi;//i일 부터 시작.
 		int[] arr = new int[2];
-		int r = fi;
-		int m = Integer.MIN_VALUE;
+		int r = fi;//i일 부터 N일까지 최대 금액을 받았을 때의 날짜
+		int m = Integer.MIN_VALUE;//i일부터 퇴사전날 N일까지 받을 수 있는 돈의 최대 금액
 		while (z <= N) {
 			int sum = 0;
 			for (int i = z; i <= N;) {
@@ -75,15 +75,15 @@ public class BJ_14501_1 {
 				}
 				i++;
 			}
-			if (m < sum) {
+			if (m < sum) {//받을 수 있는 금액이 fi일부터 N일까지보다 i일 부터 N일이 크면 바꿔주기
 				m = sum;
-				r = z;
+				r = z;//fi일 이후부터 받을 수 있는 금액이 최대가 되는 위치가 달라지면 바꿔주기
 			}
 			m = Math.max(m, sum);
 			z++;
 		}
-		arr[1] = m;
-		arr[0] = r;
+		arr[1] = m;//fi일부터 받을 수 있는 최대금액
+		arr[0] = r;//fi일부터 최대 금액을 받을 수 있는 날
 		return arr;
 	}
 
