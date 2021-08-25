@@ -18,7 +18,7 @@ public class BJ_1753_2 {
 	static boolean[] visited;
 	static int V, E;
 	static int Start;
-	static ArrayList<Map<Integer,Integer>> graph;
+	static ArrayList<ArrayList<int[]>> graph;
 	
 	
 	public static void main(String[] args) throws IOException {
@@ -26,16 +26,16 @@ public class BJ_1753_2 {
 		V = Integer.parseInt(st.nextToken());
 		E = Integer.parseInt(st.nextToken());
 		Start = Integer.parseInt(br.readLine());
-		graph = new ArrayList<Map<Integer,Integer>>();
+		graph = new ArrayList<ArrayList<int[]>>();
 		for(int i=0; i<=V; i++) {
-			graph.add(new Map<Integer, Integer>());
+			graph.add(new ArrayList<int[]>());
 		}
 		for(int i=0; i<E; i++) {
 			st = new StringTokenizer(br.readLine()," ");
 			int from = Integer.parseInt(st.nextToken());
 			int to = Integer.parseInt(st.nextToken());
 			int weight = Integer.parseInt(st.nextToken());
-			graph.
+			graph.get(from).add(new int[] {to,weight});
 		}
 		
 	}
