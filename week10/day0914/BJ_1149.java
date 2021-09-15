@@ -24,15 +24,16 @@ public class BJ_1149 {
 			
 		}
 		
-		int min = Integer.MAX_VALUE;
-		for(int i=0; i<3; i++) {
-			if(min>bills[N][i]) {
-				min = bills[N][i];
-			}
+		int min = bills[N][0];//Integer.MAX_VALUE;
+		for(int i=1; i<3; i++) {
+//			if(min>bills[N][i]) {
+//				min = bills[N][i];
+//			}//92ms;
+			min = Math.min(bills[N][i],min);//88ms
 		}
 		
 		System.out.println(min);
-//		System.out.println(Math.min(bills[N][0], Math.min(bills[N][1], bills[N][2])));//이게 더 느림
+//		System.out.println(Math.min(bills[N][0], Math.min(bills[N][1], bills[N][2])));//100ms이게 더 느림
 		
 	}
 
