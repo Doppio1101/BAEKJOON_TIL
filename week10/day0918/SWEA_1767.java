@@ -11,7 +11,12 @@ public class SWEA_1767 {
 	static StringBuilder sb = new StringBuilder();
 
 	public static void main(String[] args) throws IOException {
-		
-
+		int TC = Integer.parseInt(br.readLine());
+		for(int t=1; t<=TC; t++) {
+			int result=0;
+			
+			sb.append("#"+t+" "+result+"\n");
+		}
+		System.out.println(sb.toString());
 	}
 }
