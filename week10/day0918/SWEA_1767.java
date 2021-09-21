@@ -65,6 +65,11 @@ public class SWEA_1767 {
 			while(true) {
 				nr += deltas[d][0];
 				nc += deltas[d][1];
+				if(isIn(nr, nc) && map[nr][nc]==0) {
+					
+				}else if(isIn(nr, nc)&& map[nr][nc]==-1) {
+					
+				}
 			}
 			
 		}
