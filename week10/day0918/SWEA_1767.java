@@ -50,6 +50,9 @@ public class SWEA_1767 {
 			}
 			//여기까지 테두리에 -1 넣기.
 			dfs(0);
+			for(int i=0; i<list.size(); i++) {
+				result += list.get(i).len;
+			}
 			sb.append("#"+t+" "+result+"\n");
 		}
 		System.out.println(sb.toString());
@@ -57,22 +60,30 @@ public class SWEA_1767 {
 	
 	private static void dfs(int idx) {
 		//일직선 dfs 1인 구역으로부터 -1(테두리)까지.
+		if(idx==list.size()) {
+			return;
+		}
 		int r = list.get(idx).r;
 		int c = list.get(idx).c;
 		for(int d=0; d<4; d++) {
 			int nr=r;
 			int nc=c;
+			int len =0;
 			while(true) {
 				nr += deltas[d][0];
 				nc += deltas[d][1];
 				if(isIn(nr, nc) && map[nr][nc]==0) {
-					
-				}else if(isIn(nr, nc)&& map[nr][nc]==-1) {
-					
+					len++;
+				}else if(map[nr][nc]==-1) {
+					list.get(idx).len = Math.min(len, list.get(idx).len);
+					break;
+				}else {
+					break;
 				}
 			}
 			
 		}
+		dfs(idx+1);
 		
 	}
 	
