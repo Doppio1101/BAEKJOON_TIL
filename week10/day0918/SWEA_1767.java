@@ -31,6 +31,9 @@ public class SWEA_1767 {
 				st = new StringTokenizer(br.readLine()," ");
 				for(int j=1; j<N+1; j++) {
 					map[i][j] = Integer.parseInt(st.nextToken());
+//					if(i==1 || i==N || j==1 || j==N) {
+//						continue;
+//					}
 					if(map[i][j]==1) {
 						list.add(new Point(i,j));
 					}
@@ -49,11 +52,17 @@ public class SWEA_1767 {
 				map[i][N+1] = -1;
 			}
 			//여기까지 테두리에 -1 넣기.
+			for(int[] arr:map) {
+				System.out.println(Arrays.toString(arr));
+			}
 			dfs(0);
 			for(int i=0; i<list.size(); i++) {
 				result += list.get(i).len;
 			}
 			sb.append("#"+t+" "+result+"\n");
+			for(int[] arr:map) {
+				System.out.println(Arrays.toString(arr));
+			}
 		}
 		System.out.println(sb.toString());
 	}
@@ -65,6 +74,7 @@ public class SWEA_1767 {
 		}
 		int r = list.get(idx).r;
 		int c = list.get(idx).c;
+		int way = 0;
 		for(int d=0; d<4; d++) {
 			int nr=r;
 			int nc=c;
@@ -75,7 +85,13 @@ public class SWEA_1767 {
 				if(isIn(nr, nc) && map[nr][nc]==0) {
 					len++;
 				}else if(map[nr][nc]==-1) {
+					int a = list.get(idx).len;
+					int b = len;
 					list.get(idx).len = Math.min(len, list.get(idx).len);
+//					if(list.get(idx).len ==len) {
+//						way = d;
+//					}
+					
 					break;
 				}else {
 					break;
@@ -83,6 +99,17 @@ public class SWEA_1767 {
 			}
 			
 		}
+//		int nr = r+deltas[way][0];
+//		int nc = c+deltas[way][1];
+//		while(map[nr][nc] ==0) {
+//			map[nr][nc] = 1;
+//			if(map[nr][nc]==-1) {
+//				break;
+//			}
+//			nr += deltas[way][0];
+//			nc += deltas[way][1];
+//			
+//		}
 		dfs(idx+1);
 		
 	}
