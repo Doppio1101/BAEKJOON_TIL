@@ -95,7 +95,7 @@ public class SWEA_1767 {
 	
 	static class Point{
 		int r,c;
-		int len;
+		int len = Integer.MAX_VALUE;
 		public Point(int r, int c) {
 			super();
 			this.r = r;
