@@ -47,9 +47,10 @@ public class BJ_17144 {
 			spread();
 
 			// 2. 청소
-			cleaning(0);
-
-			cleaning(1);
+			cleaning(clean[0][0],true);//조건문으로 해주는 게 당연히 더 빠름!
+//			cleaning(0);
+			cleaning(clean[1][0],false);
+//			cleaning(1);
 
 			// 3. 미세먼지 위치 다시 넣기
 			result = wnqwnq();// 줍줍
@@ -84,6 +85,33 @@ public class BJ_17144 {
 
 	}
 
+	private static void cleaning(int cr, boolean flag) {
+		int deltaC = 0;
+		int deltaR = flag ? -1 : 1;
+		
+		int nr = cr + deltaR *2;
+		int nc = 0;
+		while(true) {
+			map[nr-deltaR][nc-deltaC] = map[nr][nc];
+			if((nr==0 && nc==0) || (nr==R-1 && nc==0)) {
+				deltaR = 0;
+				deltaC = 1;
+			}else if((nr==0 || nr==R-1)&&nc == C-1) {//맨 오른쪽일 때
+				deltaR = flag? 1 : -1;
+				deltaC=0;
+			}else if(nr==cr && nc==C-1) {//맨 오른쪽에서 공기청정기 라인에 도달.
+				deltaR = 0;
+				deltaC = -1;
+			}else if(nr==cr && nc==1) {//공기청정기 앞까지 왔을 때
+				map[cr][1] = 0;
+				break;
+			}
+			nr += deltaR;
+			nc += deltaC;
+		}
+		
+	}
+	
 	private static void cleaning(int num) {
 		Queue<Integer> cleanQ = new LinkedList<>();
 		int[][] del;
