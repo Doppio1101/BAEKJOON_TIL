@@ -21,8 +21,8 @@ public class SWEA_3124_kruskal_PQ {
 	
 	public static void main(String[] args) throws IOException {
 		br = new BufferedReader(new InputStreamReader(System.in));
-		int TC = Integer.parseInt(br.readLine());
-		for (int t = 1; t <= TC; t++) {
+//		int TC = Integer.parseInt(br.readLine());
+//		for (int t = 1; t <= TC; t++) {
 			st = new StringTokenizer(br.readLine(), " ");
 			V = Integer.parseInt(st.nextToken());
 			E = Integer.parseInt(st.nextToken());
@@ -46,9 +46,9 @@ public class SWEA_3124_kruskal_PQ {
 					break;
 				}
 			}
-			sb.append("#" + t + " " + totalCost+"\n");
-		}
-		System.out.println(sb.toString());
+//			sb.append("#" + t + " " + totalCost+"\n");
+//		}
+		System.out.println(totalCost);
 	}
 
 	//각각의 원소를 개별 집단으로 구성해준다.
