@@ -25,7 +25,8 @@ public class BJ_10830 {
 				m[i][j] = Integer.parseInt(st.nextToken())%T;
 			}
 		}
-		int[][] mm = matrix(m,B);
+		int[][] mm = matrix(m,B);//재귀
+//		int[][] mm = matrix(B);//반복문
 		for(int i=0; i<N; i++) {
 			for(int j=0; j<N; j++) {
 				sb.append(mm[i][j]+" ");
@@ -48,8 +49,25 @@ public class BJ_10830 {
 		}
 		
 		return res;
-	}
+	}//재귀형태
 
+	private static int[][] matrix(long y) {
+
+		int[][] res = new int[N][N];
+		for(int i=0; i<N; i++){
+			res[i][i] = 1;
+		}
+		while(y>0) {
+			if(y%2==1) {
+				res = mul(res,m);
+			}
+			y/=2;
+			m = mul(m,m);
+		}
+		
+		return res;
+	}//반복문형태
+	
 	private static int[][] mul(int[][] r, int[][] x) {
 		int[][] res = new int[N][N];
 		for(int i=0; i<N; i++) {
