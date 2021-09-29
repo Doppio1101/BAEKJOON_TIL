@@ -20,7 +20,7 @@ public class BJ_1194 {
 		//비트연산을 이용해서
 		//&연산일 때는 키를 가지고있는지 확인
 		//|연산을 때는 키를 먹을 것으로 키를 가지고 있는 것으로 처리
-//		System.out.println(1<<6);
+//		System.out.println(1<<6);   
 		st = new StringTokenizer(br.readLine()," ");
 		R = Integer.parseInt(st.nextToken());
 		C = Integer.parseInt(st.nextToken());
