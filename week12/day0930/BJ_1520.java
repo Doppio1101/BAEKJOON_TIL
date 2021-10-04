@@ -28,6 +28,8 @@ public class BJ_1520 {
 			}
 		}
 		
+		visited[N-1][M-1] = 1;
+		//원래는 조건문으로 기저조건으로 사용했는데 1을 넣어줌으로 해서 기저조건을 만들어 줌.
 		
 		int result = dfs(0,0);
 		
@@ -36,17 +38,19 @@ public class BJ_1520 {
 	}
 
 	private static int dfs(int r, int c) {
-		if(r == N-1 && c == M-1) {	
-			
-			return 1;
-			
-		}
+//		if(r == N-1 && c == M-1) {	
+//			
+//			return 1;
+//			
+//		}
 		
 		if(visited[r][c] != -1) {
 			return visited[r][c];
 		}
 		
 		visited[r][c] = 0;
+		//주석 추가 -> 원래는 -1로 하여금 방문하지 않았음을 표현 했고
+		//0으로 초기화 하고 자식을 탐색하는 방법으로 방문을 체크해준다.
 		
 		for(int d=0; d<4; d++) {
 			int nr = r + deltas[d][0];
