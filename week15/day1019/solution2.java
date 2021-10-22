@@ -1,3 +1,5 @@
+package week15.day1019;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -7,7 +9,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class Solution {
+public class solution2 {
 	
 	static BufferedReader br;
 	static StringTokenizer st;
