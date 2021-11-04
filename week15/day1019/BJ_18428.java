@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -21,11 +22,10 @@ public class BJ_18428 {
 		N = Integer.parseInt(br.readLine());
 		map = new char[N][N];
 		list = new ArrayList<>();
-		int c=0;
 		for(int i=0; i<N; i++) {
-			char[] arr = br.readLine().toCharArray();
+			st = new StringTokenizer(br.readLine()," ");
 			for(int j=0; j<N; j++) {
-				map[i][j] = arr[j];
+				map[i][j] = st.nextToken().charAt(0);
 				if(map[i][j] == 'T') {
 					list.add(new int[] {i,j});
 				}
@@ -40,25 +40,28 @@ public class BJ_18428 {
 	}
 	private static void dfs(int r,int c, int cnt) {
 		if(status) {
-			return;
-		}
-		if(c==N) {
-			c=0;
-			r++;
-		}
-		if(r==N) {
+			
 			return;
 		}
 		if(cnt==3) {
-			status = find()? true : false;
+			status = find() || status;
+			return;
 		}
-		if(map[r][c]=='X') {
-			map[r][c] ='O';
-			dfs(r,c+1, cnt+1);
-			map[r][c] = 'X';
-		}
-		dfs(r,c+1,cnt);
 		
+		for(int i=r; i<N; i++) {
+			for(int j=c; j<N; j++) {
+				if(map[i][j]=='X') {
+					map[i][j] = 'O';
+//					if(j==N-1) {
+//						dfs(i+1,0,cnt+1);
+//					}else {
+						dfs(i,j+1,cnt+1);
+//					}
+					map[i][j] = 'X';						
+				}
+			}
+			c=0;
+		}
 	}
 	private static boolean find() {
 		
